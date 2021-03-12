@@ -10,6 +10,7 @@ router.get('/', (req, res)=>{
 
 router.post('/register', UserController.register)
 router.post('/login', UserController.login)
+router.post('/oauth', UserController.googleOauth)
 
 router.use(authentic)
 router.post('/task/create', TaskController.createTask)

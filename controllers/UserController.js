@@ -1,8 +1,41 @@
 const { comparedPassword } = require('../helpers/bcrypt');
 const { User } = require('../models')
 const {createToken, verifyToken} = require('../helpers/jwt')
+const { OAuth2Client } = require("google-auth-library");
 
 class UserController{
+
+    static async googleOauth(req, res, next){
+        try {
+            const id_token = req.body.id_token;
+            const client = new OAuth2Client(process.env.CLIENT_ID);
+            const ticket = await client.verifyIdToken({
+              idToken: id_token,
+              audience: process.env.CLIENT_ID,
+            });
+            const { email } = ticket.getPayload();
+      
+            const user = await User.findOrCreate({
+              where: {
+                email,
+              },
+              defaults: {
+                email,
+                password: `${Math.floor(Math.random() * 1e6)}`,
+              },
+            });
+            
+            console.log(user[0].email)
+            const token = createToken(user[0]);
+            console.log(token)
+            res.status(200).json({ access_token: token });
+          } catch (err) {
+            next({
+              data: err,
+            });
+          }
+    }
+
     static async register(req, res, next){
         try {
             const newUser = {
@@ -15,6 +48,7 @@ class UserController{
                 email: user.email
             })
         } catch (error) {
+            // res.send(error)
             next(error)
         }
     }
@@ -35,6 +69,7 @@ class UserController{
                 res.status(200).json({access_token})
             }                       
         } catch (error) {
+            console.log(error)
             next(error)
         }
     }
