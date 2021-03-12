@@ -4,6 +4,7 @@
   "description": "API untuk managing task, yang akan di hit oleh kanban client",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "dev": "cross-env NODE_ENV=development npx nodemon app.js"
   },
   "repository": {
