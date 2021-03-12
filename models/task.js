@@ -15,17 +15,28 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Task.init({
-    title: DataTypes.STRING,
-    category: DataTypes.STRING,
+    title: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "title is required"
+        }
+      }
+    },
+    category: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "category is required"
+        }
+      }
+    },
     UserId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'Task',
-    hooks:{
-      beforeCreate: (user) =>{
-        user.category = 'backlog'
-      }
-    }
+    modelName: 'Task'
   });
   return Task;
 };

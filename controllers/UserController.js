@@ -28,15 +28,12 @@ class UserController{
 
             if(!user) {
                 throw {msg: "Invalid Email or Password"}
-            }
-
-            if(!comparedPassword(password, user.password)){
+            }else if(!comparedPassword(password, user.password)){
                 throw {msg: "Invalid Email or Password"}
-            }
-
-            const access_token = createToken(user)
-
-            res.status(200).json({access_token})
+            }else{
+                const access_token = createToken(user)
+                res.status(200).json({access_token})
+            }                       
         } catch (error) {
             next(error)
         }
