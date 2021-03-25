@@ -170,7 +170,7 @@ Response (500 - Internal Server Error)
   }
 ```
 
->GET /task/edit/:id
+>PATCH /task/edit/:id
 Req.headers:
 ```json
   {
@@ -212,7 +212,7 @@ Response (500 - Internal Server Error)
   }
 ```
 
->GET /task/delete/:id
+>DELETE /task/delete/:id
 Req.headers:
 ```json
   {
@@ -239,7 +239,7 @@ Response (500 - Internal Server Error)
   }
 ```
 
-> GET /Oauth
+> POST /Oauth
 
 Req.body:
 ``` json
